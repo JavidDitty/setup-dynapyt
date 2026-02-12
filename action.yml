@@ -12,7 +12,7 @@ runs:
       shell: bash
       run: |
         DYNAPYT_ARTIFACT_NAME="$(date +%s%N)-dynapyt_output"
-        echo "DYNAPYT_ARTIFACT_NAME=$DYNAPYT_ARTIFACT_NAME" >> $GITHUB_ENV
+        echo "DYNAPYT_ARTIFACT_NAME=$DYNAPYT_ARTIFACT_NAME" >> "$GITHUB_ENV"
 
         DYNAPYT_OUTPUT=/home/runner/dynapyt_output"
         echo "DYNAPYT_OUTPUT=$DYNAPYT_OUTPUT" >> "$GITHUB_ENV"
@@ -21,7 +21,7 @@ runs:
         DYNAPYT_SESSION_ID=$EPOCHSECONDS
         echo "DYNAPYT_SESSION_ID=$DYNAPYT_SESSION_ID" >> "$GITHUB_ENV"
 
-        DYNAPYT_ANALYSES=/tmp/dynapyt_analyses-$DYNAPYT_SESSION_ID.txt
+        DYNAPYT_ANALYSES="/tmp/dynapyt_analyses-$DYNAPYT_SESSION_ID.txt"
         echo "DYNAPYT_ANALYSES=$DYNAPYT_ANALYSES" >> "$GITHUB_ENV"
         echo "dynapyt.analyses.TraceAll.TraceAll" > "$DYNAPYT_ANALYSES"
 
