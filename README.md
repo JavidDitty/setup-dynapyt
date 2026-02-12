@@ -12,7 +12,7 @@ steps:
 
 # Insert your other steps here
 
-- name: Upload CIntent Artifacts
+- name: Upload DynaPyt Artifacts
   uses: actions/upload-artifact@v4
   if: always()
   with:
