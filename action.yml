@@ -29,4 +29,5 @@ runs:
       if: ${{ runner.os == 'Linux' }}
       shell: bash
       run: |
+        python -m pip install dynapyt
         python -m dynapyt.run_instrumentation --directory "$GITHUB_WORKSPACE" --analysis dynapyt.analyses.TraceAll.TraceAll
