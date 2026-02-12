@@ -1,0 +1,32 @@
+name: "Setup Dynapyt"
+description: "Set up your GitHub Actions job for DynaPyt."
+author: "Javid Ditty"
+branding:
+  icon: "eye"
+  color: "purple"
+runs:
+  using: "composite"
+  steps:
+    - name: Set Environmental Variables
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        DYNAPYT_ARTIFACT_NAME="$(date +%s%N)-dynapyt_output"
+        echo "DYNAPYT_ARTIFACT_NAME=$DYNAPYT_ARTIFACT_NAME" >> $GITHUB_ENV
+
+        DYNAPYT_OUTPUT=/home/runner/dynapyt_output"
+        echo "DYNAPYT_OUTPUT=$DYNAPYT_OUTPUT" >> "$GITHUB_ENV"
+        mkdir -p $DYNAPYT_OUTPUT
+
+        DYNAPYT_SESSION_ID=$EPOCHSECONDS
+        echo "DYNAPYT_SESSION_ID=$DYNAPYT_SESSION_ID" >> "$GITHUB_ENV"
+
+        DYNAPYT_ANALYSES=/tmp/dynapyt_analyses-$DYNAPYT_SESSION_ID.txt
+        echo "DYNAPYT_ANALYSES=$DYNAPYT_ANALYSES" >> "$GITHUB_ENV"
+        echo "dynapyt.analyses.TraceAll.TraceAll" > "$DYNAPYT_ANALYSES"
+
+    - name: Instrument the Repository
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        python -m dynapyt.run_instrumentation --directory "$GITHUB_WORKSPACE" --analysis dynapyt.analyses.TraceAll.TraceAll
