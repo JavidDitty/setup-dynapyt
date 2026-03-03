@@ -9,10 +9,6 @@ inputs:
     description: "Version of Dynapyt to use"
     required: false
     default: "3.0.0"
-  entry:
-    description: "Path to an entry file (python)"
-    required: false
-    default: ${{ null }}
   instrument-directory:
     description: "Path to a directory to instrument"
     required: false
@@ -41,14 +37,8 @@ runs:
         echo "dynapyt.analyses.TraceAll.TraceAll" > "$DYNAPYT_ANALYSES"
 
     - name: Instrument the Repository
-      if: ${{ runner.os == 'Linux' }} && ${{ inputs.entry }} == ${{ null }}
+      if: ${{ runner.os == 'Linux' }}
       shell: bash
       run: |
         python -m pip install pytest pytest-xdist libcst dynapyt==${{ inputs.dynapyt-version }}
         python -m dynapyt.run_instrumentation --directory ${{ inputs.instrument-directory }} --analysis TraceAll
-
-    - name: Run the Entrypoint
-      if: ${{ runner.os == 'Linux' }} && ${{ inputs.entry }} != ${{ null }}
-      shell: bash
-      run: |
-        python -m dynapyt.run_analysis --entry ${{ inputs.entry }} --analysis TraceAll
